@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import { ClassSchema } from './classes';
+
 
 const Schema = mongoose.Schema;
 
@@ -8,11 +10,11 @@ const SectorSchema = new Schema({
             required: true,
         },
         classes: [
-            {
-                type: Schema.Types.ObjectId, ref: "Class"
-            }
+            ClassSchema
         ]
 });
 
-export default mongoose.model('Sector', SectorSchema);
+SectorModel = mongoose.model('Sector', SectorSchema);
+
+export default SectorModel;
 

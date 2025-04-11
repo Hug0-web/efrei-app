@@ -1,4 +1,4 @@
-import Sector from "@/app/models/sector";
+import SectorModel from "@/app/models/sector";
 import database_connection from "@/app/database/mongodb";
 import { NextResponse } from "next";
 
@@ -10,7 +10,7 @@ export async function createSector(request) {
 
             await database_connection();
             
-            await Sector.create({ name, classes });
+            await SectorModel.create({ name, classes });
             
             return NextResponse.json({ message: "La filière a été créer" }, { status: 201 });
 
@@ -29,7 +29,7 @@ export async function readSector() {
 
         await database_connection();
 
-        const sectors = await Sector.find();
+        const sectors = await SectorModel.find();
         
         return NextResponse.json({ sectors }, { status: 201 });
 
@@ -52,7 +52,7 @@ export async function deleteSector(request) {
 
         await database_connection();
 
-        await Sector.findByIdAndDelete(id);
+        await SectorModel.findByIdAndDelete(id);
         
         return NextResponse.json({ message: "la filière a été supprimer" }, { status: 200 });
 
@@ -74,7 +74,7 @@ export async function updateSector(request, { params }) {
 
         await database_connection();
 
-        await Sector.findByIdAndUpdate(id, { name, classes }, { new: true });
+        await SectorModel.findByIdAndUpdate(id, { name, classes }, { new: true });
 
         return NextResponse.json({ message: "La filière a été mise à jour" }, { status: 200 })
 

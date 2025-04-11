@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import { StudentSchema } from './student';
+import { CoursSchema } from './cours';
 
 const Schema = mongoose.Schema;
 
@@ -8,10 +10,15 @@ const ClassSchema = new Schema({
             required: true,
         },
         student: [
-            {
-                type: Schema.Types.ObjectId, ref: "Student"
-            }
+            StudentSchema
+        ],
+        cours: [
+            CoursSchema
         ]
+        
 });
 
-export default mongoose.model('Class', ClassSchema);
+const ClassModel = mongoose.model('Class', ClassSchema);
+
+export default ClassModel;
+export { ClassSchema };
