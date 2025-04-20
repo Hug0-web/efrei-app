@@ -1,8 +1,61 @@
 import mongoose from 'mongoose';
-import { ClassSchema } from './classes';
+
 
 
 const Schema = mongoose.Schema;
+
+/*const BulletinSchema = new Schema({
+    note: [
+        NoteSchema
+    ],
+    cours: [
+        CoursSchema
+    ]
+
+});
+
+const StudentSchema = new Schema({
+    first_name: {
+        type: String,
+        required: true,
+    },
+    last_name: {
+        type: String,
+        required: true,
+    },    
+    bulletin: [
+        BulletinSchema
+    ]
+});
+
+
+const CoursSchema = new Schema({
+    student: [
+        StudentSchema
+    ],
+    teacher: [
+        TeacherSchema
+    ],
+    name: {
+        type: String,
+        required: true,
+    }
+
+});
+
+const ClassSchema = new Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    student: [
+        StudentSchema
+    ],
+    cours: [
+        CoursSchema
+    ]
+    
+});*/
 
 const SectorSchema = new Schema({
         name: {
@@ -13,6 +66,7 @@ const SectorSchema = new Schema({
             ClassSchema
         ]
 });
+
 
 SectorModel = mongoose.model('Sector', SectorSchema);
 

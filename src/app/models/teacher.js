@@ -11,7 +11,7 @@ const TeacherSchema = new Schema({
         type: String,
         required: true,
     }, 
-    note: Number
+
 });
 
 const TeacherModel = mongoose.model('Teacher', TeacherSchema);
