@@ -1,16 +1,20 @@
 import mongoose from 'mongoose';
-import { StudentSchema } from './student';
 
 const Schema = mongoose.Schema;
 
 const NoteSchema = new Schema({
-    student: [
-        StudentSchema
-    ],
-    note: Number
+    student: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    note: {
+        type: Number,
+        required: true
+    }
 });
 
-NoteModel = mongoose.model('Cours', NoteSchema);
+const NoteModel = mongoose.models.Note || mongoose.model('Note', NoteSchema);
 
 export default NoteModel;
 export { NoteSchema };

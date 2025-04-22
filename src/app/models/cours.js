@@ -1,24 +1,28 @@
 import mongoose from 'mongoose';
-import { StudentSchema } from './student';
-import { TeacherSchema } from './teacher';
 
 const Schema = mongoose.Schema;
 
 const CoursSchema = new Schema({
-        student: [
-            StudentSchema
-        ],
-        teacher: [
-            TeacherSchema
-        ],
-        name: {
-            type: String,
-            required: true,
-        }
-
+    name: {
+        type: String,
+        required: true,
+    },
+    description: {
+        type: String,
+        required: false,
+    },
+    teacher: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: false,
+    },
+    classes: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Class'
+    }]
 });
 
-CoursModel = mongoose.model('Cours', CoursSchema);
+const CoursModel = mongoose.models.Course || mongoose.model('Course', CoursSchema);
 
 export default CoursModel;
 export { CoursSchema };
