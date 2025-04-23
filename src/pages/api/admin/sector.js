@@ -19,64 +19,6 @@ export async function createSector(request) {
     }
 }
 
-// GET
-export async function readSectors() {
-    try {
-        await database_connection();
-
-        const sectors = await SectorModel.find()
-            .populate({
-                path: 'classes',
-                populate: [
-                    { path: 'student' },
-                    { path: 'cours' }
-                ]
-            });
-        
-        return NextResponse.json({ sectors }, { status: 200 });
-
-    } catch (error) {
-        console.error(error);
-        return NextResponse.json({ error: "Aucune filière trouvée" }, { status: 500 });
-    }
-}
-
-// DELETE
-export async function deleteSector(request) {
-    try {
-        const id = request.nextUrl.searchParams.get('id');
-
-        await database_connection();
-
-        await SectorModel.findByIdAndDelete(id);
-        
-        return NextResponse.json({ message: "La filière a été supprimée" }, { status: 200 });
-
-    } catch (error) {
-        console.error(error);
-        return NextResponse.json({ error: "Aucune filière trouvée" }, { status: 500 });
-    }
-}
-
-// UPDATE
-export async function updateSector(request, { params }) {
-    try {
-        const { id } = params;
-
-        const { newName: name, newClasses: classes } = await request.json();
-
-        await database_connection();
-
-        await SectorModel.findByIdAndUpdate(id, { name, classes }, { new: true });
-
-        return NextResponse.json({ message: "La filière a été mise à jour" }, { status: 200 })
-
-    } catch (error) {
-        console.error(error);
-        return NextResponse.json({ error: "La filière n'a pas pu être mise à jour" }, { status: 500 })
-    }
-}
-
 
 export default async function handler(req, res) {
     await database_connection();
