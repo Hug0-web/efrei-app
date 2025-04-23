@@ -9,12 +9,12 @@ export default async function handler(req, res) {
     try {
         const { note } = req.body;
         
-        // Vérification que la note est bien fournie
+       
         if (note === undefined || note === null) {
             return res.status(400).json({ error: "La note est requise" });
         }
         
-        // Vérification que la note est un nombre
+       
         if (typeof note !== 'number') {
             return res.status(400).json({ error: "La note doit être un nombre" });
         }

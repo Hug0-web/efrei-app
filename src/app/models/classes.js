@@ -7,9 +7,9 @@ const ClassSchema = new Schema({
         type: String,
         required: true,
     },
-    student: [{
+    sector: [{
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'Sector'
     }],
     cours: [{
         type: Schema.Types.ObjectId,

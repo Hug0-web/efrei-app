@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     switch (req.method) {
         case "PUT":
             try {
-                const { newName: name, newStudent: student, newCours: cours } = req.body;
+                const { newName: name, newSector: sector, newCours: cours } = req.body;
 
                 if (!name) {
                     return res.status(400).json({ error: "Le nom est requis" });
@@ -19,7 +19,7 @@ export default async function handler(req, res) {
 
                 const updatedClass = await ClassModel.findByIdAndUpdate(
                     cleanId,
-                    { name, student, cours },
+                    { name, sector, cours },
                     { new: true }
                 );
 

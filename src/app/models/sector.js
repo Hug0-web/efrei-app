@@ -7,10 +7,6 @@ const SectorSchema = new Schema({
             type: String,
             required: true,
         },
-        classes: [{
-            type: Schema.Types.ObjectId,
-            ref: 'Class'
-        }]
 });
 
 const SectorModel = mongoose.models.Sector || mongoose.model('Sector', SectorSchema);

@@ -8,10 +8,6 @@ const UserSchema = new Schema({
         ref: 'Classe',
         required: true
     },
-    cours_id: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Cours'
-    }],
     first_name: {
         type: String,
         required: true
@@ -37,7 +33,7 @@ const UserSchema = new Schema({
     }
 });
 
-// Utilisation du pattern singleton pour éviter la recompilation du modèle
+
 const UserModel = mongoose.models.User || mongoose.model('User', UserSchema);
 
 export default UserModel;

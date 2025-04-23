@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     switch (req.method) {
         case "PUT":
             try {
-                const { name, classes } = req.body;
+                const { name } = req.body;
 
                 if (!name) {
                     return res.status(400).json({ error: "Le nom de la filière est requis" });
@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 
                 const updatedSector = await SectorModel.findByIdAndUpdate(
                     id,
-                    { name, classes },
+                    { name },
                     { new: true }
                 );
 

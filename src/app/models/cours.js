@@ -13,7 +13,8 @@ const CoursSchema = new Schema({
         required: false,
     }, /*
     notes: [{
-        
+        type: Schema.Types.ObjectId,
+        ref: 'Note',
     }]
     teacher: {
         type: Schema.Types.ObjectId,

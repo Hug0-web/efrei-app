@@ -1,7 +1,6 @@
-import ClassModel from "@/app/models/classes";
+import CoursModel from "@/app/models/cours";
 import database_connection from "@/app/database/mongodb";
 import { NextResponse } from "next";
-
 
 
 export default async function handler(req, res) {
@@ -12,7 +11,7 @@ export default async function handler(req, res) {
    if(req.method === 'GET'){
         try {
            
-            const classes = await ClassModel.find().populate("sector").populate("cours");
+            const cours = await CoursModel.find()
 
             return res.status(200).json({ classes });
         } catch (error) {
@@ -20,19 +19,4 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: "Impossible de récupérer les classes" });
         }
    }
-   if(req.method === 'POST'){
-    try {
-       
-        const { name, sector, cours } = req.body;
-
-        await ClassModel.create({ name, sector, cours });
-
-        return res.json({ message: "La classe a été créée" }, { status: 201 });
-    } catch (error) {
-        console.error(error);   
-        return res.json({ error: "La classe n'a pas été créée" }, { status: 500 });
-    }
 }
-}
-
-
