@@ -37,7 +37,8 @@ const UserSchema = new Schema({
     }
 });
 
-const UserModel = mongoose.model('User', UserSchema);
+// Utilisation du pattern singleton pour éviter la recompilation du modèle
+const UserModel = mongoose.models.User || mongoose.model('User', UserSchema);
 
 export default UserModel;
 export { UserSchema };

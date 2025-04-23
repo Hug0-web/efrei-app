@@ -98,15 +98,18 @@ export default async function handler(req, res) {
                 console.error(error);
                 return res.status(500).json({ error: "Aucune filière trouvée" });
             }
-        case 'POST':
-            try {
-                const { name, classes } = req.body;
-                await SectorModel.create({ name, classes });
-                return res.status(201).json({ message: "La filière a été créée" });
-            } catch (error) {
-                console.error(error);
-                return res.status(500).json({ error: "La filière n'a pas été créée" });
-            }
+            case 'POST':
+                try {
+                    const { name, classes } = req.body;
+                    await SectorModel.create({ name, classes });
+                    return res.status(201).json({ message: "La filière a été créée" });
+                } catch (error) {
+                    console.error("Erreur détaillée:", error);
+                    return res.status(500).json({ 
+                        error: "La filière n'a pas été créée", 
+                        details: error.message 
+                    });
+                }
         case 'DELETE':
             try {
                 const { id } = req.query;

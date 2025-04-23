@@ -36,8 +36,11 @@ async function createUser(req, res) {
         });
         return res.status(201).json({ message: "L'utilisateur a été créé" });
     } catch (error) {
-        console.error(error);   
-        return res.status(500).json({ error: "L'utilisateur n'a pas pu être créé" });
+        console.error("Erreur détaillée:", error);   
+        return res.status(500).json({ 
+            error: "L'utilisateur n'a pas pu être créé", 
+            details: error.message 
+        });
     }
 }
 

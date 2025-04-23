@@ -13,7 +13,7 @@ const ClassSchema = new Schema({
     }],
     cours: [{
         type: Schema.Types.ObjectId,
-        ref: 'Course'
+        ref: 'Cours'
     }]
 });
 
