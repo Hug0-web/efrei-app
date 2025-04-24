@@ -8,8 +8,7 @@ export default async function handler(req, res) {
 
     await database_connection();
 
-    switch (req.method) {
-        case "PUT":
+    if (req.method === "PUT") {
             try {
                 const { newName: name, newSector: sector, newCours: cours } = req.body;
 
@@ -32,7 +31,8 @@ export default async function handler(req, res) {
                 console.error(error);
                 return res.status(500).json({ error: "Erreur lors de la mise à jour de la classe" });
             }
-            case "DELETE":
+        }
+    if (req.method === "DELETE") {
             try {
                 const deletedClass = await ClassModel.findByIdAndDelete(cleanId);
 
@@ -45,9 +45,8 @@ export default async function handler(req, res) {
                 console.error(error);
                 return res.status(500).json({ error: "Erreur lors de la suppression de la classe" });
             }
-
-        default:
-            res.setHeader("Allow", ["PUT", "DELETE"]);
-            return res.status(405).json({ error: `Méthode ${req.method} non autorisée` });
     }
+    if (urlSplit[3] !== user.role) {
+        return res.status(500).json({ error: "Vous n'êtes pas un professeur, vous ne pouvez pas accedez à ces données" });
+    }   
 }

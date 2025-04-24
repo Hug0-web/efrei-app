@@ -14,8 +14,7 @@ export default async function handler(req, res) {
 
         await database_connection();
 
-        switch (req.method) {
-            case "PUT":
+        if (req.method === "PUT") {
                 try {
                     const { note, user, cours } = req.body;
 
@@ -37,7 +36,8 @@ export default async function handler(req, res) {
                         details: error.message 
                     });
                 }
-            case "DELETE":
+            }
+        if(req.method === "DELETE") {
                 try {
                     const deletedNote = await NoteModel.findByIdAndDelete(id);
 
@@ -53,10 +53,6 @@ export default async function handler(req, res) {
                         details: error.message 
                     });
                 }
-
-            default:
-                res.setHeader("Allow", ["PUT", "DELETE"]);
-                return res.status(405).json({ error: `Méthode ${req.method} non autorisée` });
         }
     }
     if (urlSplit[3] !== user.role) {

@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 
 export default async function handler(req, res) {
     await database_connection();
-
+    
     if(req.method === 'POST') {
         try {
             const { email, password } = req.body;
@@ -27,8 +27,15 @@ export default async function handler(req, res) {
 
             if(passwordCompare) {
                 let jwtToken = jwt.sign({id: user.id}, process.env.JWT_SECRET)
-                return res.status(200).json({success: true, data: {token: jwtToken}})
+                
+                res.setHeader("Set-Cookie", `token=${jwtToken}; HttpOnly; Path=/; Max-Age=86400; SameSite=Strict`);
+
+                res.json({jwtToken})
+                
+                exports.token = jwtToken;
             }
+
+        
 
             
         } catch (error) {
@@ -47,4 +54,6 @@ export default async function handler(req, res) {
 
         
     }
+   
 }
+
