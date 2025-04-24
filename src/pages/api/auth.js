@@ -27,12 +27,13 @@ export default async function handler(req, res) {
 
             if(passwordCompare) {
                 let jwtToken = jwt.sign({id: user.id}, process.env.JWT_SECRET)
-                
-                res.setHeader("Set-Cookie", `token=${jwtToken}; HttpOnly; Path=/; Max-Age=86400; SameSite=Strict`);
-
-                res.json({jwtToken})
-                
-                exports.token = jwtToken;
+                return res.status(200).json({
+                    success: true, 
+                    data: {
+                        token: jwtToken,
+                        role: user.role
+                    }
+                })
             }
 
         

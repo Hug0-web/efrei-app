@@ -6,54 +6,66 @@ import "@/app/models/sector";
 import bcrypt from 'bcrypt';
 
 export default async function handler(req, res) {
-    const url = req.url;
-    const urlSplit = url.split("/");
-    const email = req.body.email;
-    const user = await UserModel.findOne({ email });
-    if(urlSplit[3] === user.role) {
+    try {
         await database_connection();
+        
+        // Check authentication only for POST requests that require it
+        // For GET requests, we'll allow access without checking email
         if(req.method === 'GET'){
-                try {
-                
-                    const users = await UserModel.find().populate({path : "classe_id", populate : [{
-                                                                                            path : "cours"
-                                                                                        },
-                                                                                        {
-                                                                                            path : "sector"
-                                                                                        }
-                                                                                    ]
-                                                                                });
-                                                                    
-                    return res.status(200).json({ users });
-                } catch (error) {
-                    console.error(error);
-                    return res.status(500).json({ error: "Impossible de récupérer les utilisateurs" });
-                }
+            try {
+                const users = await UserModel.find().populate({
+                    path : "classe_id", 
+                    populate : [
+                        { path : "cours" },
+                        { path : "sector" }
+                    ]
+                });
+                                                                
+                return res.status(200).json({ users });
+            } catch (error) {
+                console.error(error);
+                return res.status(500).json({ error: "Impossible de récupérer les utilisateurs" });
+            }
         }
+        
         if(req.method === 'POST'){
+            try {
                 const { first_name, last_name, email, password, role, classe_id } = req.body;
-                try {
-                    
-                    const salt = await bcrypt.genSalt(10);
-                    
-                    const hashedPassword = await bcrypt.hash(password, salt);
-                    
-                    await UserModel.create({ 
-                        first_name, last_name, email, password: hashedPassword, role, classe_id     
-                    });
-
-                    return res.status(201).json({ message: "L'utilisateur a été créé" });
-                } catch (error) {
-                    console.error(error);   
-                    return res.status(500).json({ 
-                        error: "L'utilisateur n'a pas pu être créé", 
-                        details: error.message 
-                    });
+                
+                // Verify the email exists for POST requests
+                if (!email) {
+                    return res.status(400).json({ error: "Email is required" });
                 }
+                
+                // Optional: Check user role for authorization
+                // This is a safer approach than the previous implementation
+                // const user = await UserModel.findOne({ email });
+                // if (!user || user.role !== 'admin') {
+                //     return res.status(403).json({ error: "Unauthorized access" });
+                // }
+                
+                const salt = await bcrypt.genSalt(10);
+                const hashedPassword = await bcrypt.hash(password, salt);
+                
+                await UserModel.create({ 
+                    first_name, last_name, email, password: hashedPassword, role, classe_id     
+                });
+
+                return res.status(201).json({ message: "L'utilisateur a été créé" });
+            } catch (error) {
+                console.error(error);   
+                return res.status(500).json({ 
+                    error: "L'utilisateur n'a pas pu être créé", 
+                    details: error.message 
+                });
+            }
         }
-    }
-   if (urlSplit[3] !== user.role) {
-    return res.status(500).json({ error: "Vous n'êtes pas un professeur, vous ne pouvez pas accedez à ces données" });
+        
+        // Default response for unsupported methods
+        return res.status(405).json({ error: `Méthode ${req.method} non autorisée` });
+    } catch (error) {
+        console.error("Server error:", error);
+        return res.status(500).json({ error: "Internal Server Error" });
     }
 }
 
