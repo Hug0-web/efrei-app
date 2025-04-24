@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import Navbar from '@/components/Navbar';
+import styles from '../../styles/login.module.css';
 
 export default function CreateUserForm() {
 
@@ -10,27 +12,45 @@ export default function CreateUserForm() {
     role: '',
     classe_id: '',
   });
+  
 
-  const [classes, setClasses] = useState([])
+  const [classes, setClasses] = useState([]);
 
-  console.log(classes);
+  //console.log(classes);
 
   const [message, setMessage] = useState('');
 
   const [loading, setLoading] = useState(true);
+  
 
   useEffect(() => {
-      fetch('/api/login/admin/classes')
-        .then((res) => res.json())
-        .then((data) => {
-          setUsers(data.classe_id);
-          setLoading(false);
-        })
-        .catch((err) => {
-          console.error('Failed to fetch classes:', err);
-          setLoading(false);
-        });
-    }, []);
+    const token = localStorage.getItem('token');
+    const email = localStorage.getItem('email');
+    const role = localStorage.getItem('userRole');
+
+    console.log({token, email, role});
+
+    fetch('/api/login/admin/classes', {
+      method: 'GET',
+      headers: {
+        'email' : email,
+        'role' : role,
+      },
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log("Données des classes :", data);
+      setClasses(data.classes);
+      setLoading(false);
+    })
+    .catch((err) => {
+      console.error("Erreur :", err);
+      setLoading(false);
+    });
+  }, [])
+
+  if (loading) return <p>Loading classes...</p>;
+  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -68,19 +88,32 @@ export default function CreateUserForm() {
     }
   };
 
-  if (loading) return <p>Loading users...</p>;
+  console.log(classes);
+    
 
   return (
-    <form onSubmit={handleSubmit}>  
-        <input name="first_name" value={formData.first_name} onChange={handleChange} placeholder="Prénom" required/>
-        <input name="last_name" value={formData.last_name} onChange={handleChange} placeholder="Nom de famille" required/>
-        <input name="email" value={formData.email} onChange={handleChange} placeholder="Email" required/>
-        <input name="password" value={formData.password} onChange={handleChange} placeholder="Mot de Passe" required/>
-        <select name="role" onChange={handleChange} placeholder="Choisissez un rôle" >
-            <option value={formData.role}>Étudiant</option>
-            <option value={formData.role}>Professeur</option>
-            <option value={formData.role}>Administrateur</option>
+    <div>
+      <form onSubmit={handleSubmit}>  
+          <input name="first_name" value={formData.first_name} onChange={handleChange} placeholder="Prénom" required/>
+          <input name="last_name" value={formData.last_name} onChange={handleChange} placeholder="Nom de famille" required/>
+          <input name="email" value={formData.email} onChange={handleChange} placeholder="Email" required/>
+          <input name="password" value={formData.password} onChange={handleChange} placeholder="Mot de Passe" required/>
+          <select name="role" onChange={handleChange} value={formData.role} required>
+            <option value="">-- Choisir un rôle --</option>
+            <option value="student">Étudiant</option>
+            <option value="teacher">Professeur</option>
+            <option value="admin">Administrateur</option>
+          </select>
+          <select name="classe_id" value={formData.classe_id} onChange={handleChange} required>
+            <option value={formData.classe_id}>Sélectionnez une classe</option>
+            {classes.map((c) => (
+              <option key={c.name} value={c._id}>
+              {c.name}
+            </option>
+            ))}
         </select>
-    </form>
+        <button className={styles.submitButton} type="submit" disabled={loading}>Créer utilisateur</button>
+      </form>
+    </div>
   )
 }

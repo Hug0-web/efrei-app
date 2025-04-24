@@ -24,16 +24,18 @@ export default function Login() {
       });
 
       const data = await response.json();
-
+      console.log(data);
       if (!response.ok) {
         throw new Error(data.error || 'Erreur de connexion');
       }
-
+      console.log(data.data.token);
       localStorage.setItem('token', data.data.token);
       
      
-      localStorage.setItem('email', email);
-      localStorage.setItem('userRole', data.data.role || 'student');
+      localStorage.setItem('email', data.data.user.email);
+      console.log(data.data.user.email);
+      localStorage.setItem('userRole', data.data.user.role);
+      console.log(data.data.user.role);
       
       router.push('/');
     } catch (err) {

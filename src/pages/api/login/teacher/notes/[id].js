@@ -4,6 +4,7 @@ import UserModel from "@/app/models/users";
 
 
 export default async function handler(req, res) {
+    await database_connection();
     const url = req.url;
     const urlSplit = url.split("/");
     const email = req.body.email;
@@ -12,7 +13,7 @@ export default async function handler(req, res) {
         const { id } = req.query;
         
 
-        await database_connection();
+       
 
         if (req.method === "PUT") {
                 try {

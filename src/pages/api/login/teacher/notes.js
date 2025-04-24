@@ -5,12 +5,13 @@ import "@/app/models/cours";
 import UserModel from "@/app/models/users";
 
 export default async function handler(req, res) {
+    await database_connection();
     const url = req.url;
     const urlSplit = url.split("/");
     const email = req.body.email;
     const user = await UserModel.findOne({ email });
     if(urlSplit[3] === user.role) {
-        await database_connection();
+        
         
         if(req.method === 'GET'){
                 try {

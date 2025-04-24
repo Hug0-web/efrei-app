@@ -1,10 +1,11 @@
 import ClassModel from "@/app/models/classes";
+import UserModel from "@/app/models/users";
 import database_connection from "@/app/database/mongodb";
 
 export default async function handler(req, res) {
-    // Nettoyer l'ID en supprimant les espaces et les sauts de ligne
+    
     const { id } = req.query;
-    const cleanId = id ? id.toString().trim() : id;
+    
 
     await database_connection();
 
@@ -17,7 +18,7 @@ export default async function handler(req, res) {
                 }
 
                 const updatedClass = await ClassModel.findByIdAndUpdate(
-                    cleanId,
+                    id,
                     { name, sector, cours },
                     { new: true }
                 );
@@ -34,7 +35,7 @@ export default async function handler(req, res) {
         }
     if (req.method === "DELETE") {
             try {
-                const deletedClass = await ClassModel.findByIdAndDelete(cleanId);
+                const deletedClass = await ClassModel.findByIdAndDelete(id);
 
                 if (!deletedClass) {
                     return res.status(404).json({ error: "Classe introuvable à supprimer" });

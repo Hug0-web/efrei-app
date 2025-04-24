@@ -11,12 +11,15 @@ export default function Navbar() {
     // Vérifier si un token existe dans le localStorage
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('userRole');
+
+    
     setIsLoggedIn(!!token);
     setUserRole(role);
+    
   }, []);
 
   const handleLogout = () => {
-    // Supprimer le token et rediriger vers la page de connexion
+    
     localStorage.removeItem('token');
     setIsLoggedIn(false);
     router.push('/login');
