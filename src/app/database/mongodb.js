@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const username = process.env.USER;
+const username = process.env.USERNAME;
 const password = process.env.PASSWORD;
 const database = process.env.DATABASE;
 

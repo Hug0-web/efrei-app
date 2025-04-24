@@ -27,7 +27,13 @@ export default async function handler(req, res) {
 
             if(passwordCompare) {
                 let jwtToken = jwt.sign({id: user.id}, process.env.JWT_SECRET)
-                return res.status(200).json({success: true, data: {token: jwtToken}})
+                return res.status(200).json({
+                    success: true, 
+                    data: {
+                        token: jwtToken,
+                        role: user.role
+                    }
+                })
             }
 
             
