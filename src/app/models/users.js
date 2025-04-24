@@ -3,11 +3,6 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-    classe_id: {
-        type: Schema.Types.ObjectId,
-        ref: 'Classe',
-        required: true
-    },
     first_name: {
         type: String,
         required: true
@@ -29,8 +24,12 @@ const UserSchema = new Schema({
     role: {
         type: String,
         enum: ['student', 'teacher', 'admin'],
-        default: 'student'
-    }
+    },
+    classe_id: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Class',
+        required: true
+    }],
 });
 
 
