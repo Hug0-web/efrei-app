@@ -15,7 +15,6 @@ export default function Login() {
     setLoading(true);
 
     try {
-      // Appel à l'API d'authentification
       const response = await fetch('/api/auth', {
         method: 'POST',
         headers: {
@@ -30,14 +29,12 @@ export default function Login() {
         throw new Error(data.error || 'Erreur de connexion');
       }
 
-      // Stocker le token dans localStorage
       localStorage.setItem('token', data.data.token);
       
-      // Stocker l'email et le rôle de l'utilisateur
+     
       localStorage.setItem('email', email);
       localStorage.setItem('userRole', data.data.role || 'student');
       
-      // Rediriger vers la page d'accueil
       router.push('/');
     } catch (err) {
       setError(err.message);

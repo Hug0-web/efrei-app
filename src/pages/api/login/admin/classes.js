@@ -1,4 +1,5 @@
 import ClassModel from "@/app/models/classes";
+import UserModel from "@/app/models/users";
 import database_connection from "@/app/database/mongodb";
 import { NextResponse } from "next";
 
@@ -9,6 +10,7 @@ export default async function handler(req, res) {
     const urlSplit = url.split("/");
     const email = req.body.email;
     const user = await UserModel.findOne({ email });
+    console.log(user);
     if(urlSplit[3] === user.role) {
     await database_connection();
     if(req.method === 'GET'){

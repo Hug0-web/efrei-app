@@ -1,4 +1,5 @@
 import NoteModel from "@/app/models/note";
+import UserModel from "@/app/models/users";
 import database_connection from "@/app/database/mongodb";
 import "@/app/models/users";
 import "@/app/models/cours";

@@ -1,4 +1,5 @@
 import SessionModel from "@/app/models/session";
+import UserModel from "@/app/models/users";
 import database_connection from "@/app/database/mongodb";
 
 export default async function handler(req, res) {

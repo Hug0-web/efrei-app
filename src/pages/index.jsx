@@ -11,30 +11,28 @@ export default function Home() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    // Vérifier si l'utilisateur est connecté
+  
     const token = localStorage.getItem('token');
     
     if (!token) {
-      // Rediriger vers la page de connexion si pas de token
+      
       router.push('/login');
       return;
     }
     
-    // Simuler la récupération des données utilisateur
-    // Dans un cas réel, vous feriez une requête à l'API pour obtenir les détails de l'utilisateur
+    
     const fetchUserData = async () => {
       try {
-        // Simuler un délai de chargement
+        
         await new Promise(resolve => setTimeout(resolve, 500));
         
-        // Simuler les données utilisateur
-        // Dans un cas réel, ces données viendraient de votre API
+        
         const mockUserData = {
           id: '123',
           first_name: 'Jean',
           last_name: 'Dupont',
           email: 'jean.dupont@efrei.fr',
-          role: localStorage.getItem('userRole') || 'student', // Utiliser un rôle stocké ou par défaut 'student'
+          role: localStorage.getItem('userRole') || 'student', 
           classe: 'M1 Informatique'
         };
         
@@ -48,10 +46,10 @@ export default function Home() {
     
     fetchUserData();
   }, [router]);
-
+ 
   const renderDashboardByRole = () => {
     if (!userData) return null;
-    
+    console.log(userData);
     switch (userData.role) {
       case 'admin':
         return (

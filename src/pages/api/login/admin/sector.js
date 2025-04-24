@@ -1,4 +1,5 @@
 import SectorModel from "@/app/models/sector";
+import UserModel from "@/app/models/users";
 import database_connection from "@/app/database/mongodb";
 import { NextResponse } from "next";
 
