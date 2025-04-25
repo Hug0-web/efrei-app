@@ -53,7 +53,7 @@ export default function Teacher() {
     const email = localStorage.getItem('email');
     const role = localStorage.getItem('userRole');
 
-    if (role !== "admin") {
+    if (role !== "teacher") {
       
         router.push('/');
         return;
