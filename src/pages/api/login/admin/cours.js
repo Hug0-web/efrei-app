@@ -1,45 +1,50 @@
-import NoteModel from "@/app/models/note";
+import CoursModel from "@/app/models/cours";
 import UserModel from "@/app/models/users";
+import ClassModel from "@/app/models/classes";
 import database_connection from "@/app/database/mongodb";
 import "@/app/models/users";
 import "@/app/models/cours";
+
 
 export default async function handler(req, res) {
     await database_connection();
     const url = req.url;
     const urlSplit = url.split("/");
-    const email = req.body.email;
-    const user = await UserModel.findOne({ email });
-    if(urlSplit[3] === user.role) {
+    const role = req.headers.role;
+    console.log(role);
+    console.log(urlSplit[3]);
+    if(urlSplit[3] === role) {
         
         
         if(req.method === 'GET'){
                 try {
                 
-                    const notes = await NoteModel.find().populate("user").populate("cours");
+                    const cours = await CoursModel.find().populate("users");
 
-                    return res.status(200).json({ notes });
+                    return res.status(200).json({ cours });
                 } catch (error) {   
                     console.error(error);
-                    return res.status(500).json({ error: "Impossible de récupérer les notes" });
+                    return res.status(500).json({ error: "Impossible de récupérer les cours" });
                 }
         }
         if(req.method === 'POST'){
             try {
-            
-                const { user, note, cours } = req.body;
+                console.log("Requête reçue :", req.body);
+                const { name, description, users } = req.body;
 
-                await NoteModel.create({ user, note, cours });
+                await CoursModel.create({ name, description, users });
 
-                return res.json({ message: "La note a été créée" }, { status: 201 });
+                return res.json({ message: "Le cours a été créée" }, { status: 201 });
             } catch (error) {
                 console.error(error);   
-                return res.json({ error: "La note n'a pas été créée" }, { status: 500 });
+                return res.json({ error: "Le cours n'a pas été créée" }, { status: 500 });
             }
             
         }
     }    
-    if (urlSplit[3] !== user.role) {
-        return res.status(500).json({ error: "Vous n'êtes pas un professeur, vous ne pouvez pas accedez à ces données" });
+    if (urlSplit[3] !== role) {
+        return res.status(500).json({ error: "Vous n'êtes pas un admin, vous ne pouvez pas accedez à ces données" });
     }
 }
+
+

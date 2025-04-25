@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     if(urlSplit[3] === user.role) {
         const { id } = req.query;
 
-        
+       
 
         if (req.method === "PUT") {
                 try {

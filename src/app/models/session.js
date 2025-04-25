@@ -22,7 +22,7 @@ const SessionSchema = new Schema({
     }
 });
 
-const SessionModel = mongoose.models.Sessions || mongoose.model('Session', SessionSchema);
+const SessionModel = mongoose.models.Sessions || mongoose.model('Sessions', SessionSchema);
 
 export default SessionModel;
 export { SessionSchema };

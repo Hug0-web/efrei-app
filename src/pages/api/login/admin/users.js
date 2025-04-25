@@ -41,7 +41,7 @@ export default async function handler(req, res) {
                 const hashedPassword = await bcrypt.hash(password, salt);
                 
                 await UserModel.create({ 
-                    first_name, last_name, email, password: hashedPassword, role, classe_id     
+                    first_name, last_name, email, password: hashedPassword, role, classe_id   
                 });
 
                 return res.status(201).json({ message: "L'utilisateur a été créé" });
