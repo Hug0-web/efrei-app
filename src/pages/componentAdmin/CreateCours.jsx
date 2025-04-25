@@ -9,7 +9,6 @@ const [users, setUsers] = useState([]);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    users: '',
   });
   
 
@@ -79,7 +78,6 @@ const [users, setUsers] = useState([]);
             setFormData({
             name: '',
             description: '',
-            users: '',
         });
         } else {
         setMessage(data.error || 'Une erreur est survenue.');
@@ -96,16 +94,6 @@ const [users, setUsers] = useState([]);
       <form onSubmit={handleSubmit}>  
           <input name="name" value={formData.name} onChange={handleChange} placeholder="Nom du cours" required/>
           <input name="description" value={formData.description} onChange={handleChange} placeholder="Description" required/>
-          <select name="users" value={formData.users} onChange={handleChange} required>
-            <option value="">Sélectionnez un élève ou un professeur</option>
-            {users
-                .filter((u) => u.role === 'student' || u.role === 'teacher')
-                .map((u) => (
-                <option key={u._id} value={u._id}>  
-                    {u.first_name} {u.last_name}
-                </option>
-            ))}
-            </select>
         <button className={styles.submitButton} type="submit" >Créer Cours</button>
       </form>
     </div>

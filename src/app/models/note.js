@@ -9,11 +9,13 @@ const NoteSchema = new Schema({
     },
     user: [{
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        required: true
     }],
     cours: [{
         type: Schema.Types.ObjectId,
         ref: 'Cours',
+        required: true
     }],
 });
 

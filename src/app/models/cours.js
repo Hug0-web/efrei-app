@@ -12,12 +12,6 @@ const CoursSchema = new Schema({
         type: String,
         required: false,
     },
-    users: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: false,
-    },
-
 });
 
 const CoursModel = mongoose.models.Cours || mongoose.model("Cours", CoursSchema);

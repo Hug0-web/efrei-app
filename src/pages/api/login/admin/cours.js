@@ -19,7 +19,7 @@ export default async function handler(req, res) {
         if(req.method === 'GET'){
                 try {
                 
-                    const cours = await CoursModel.find().populate("users");
+                    const cours = await CoursModel.find();
 
                     return res.status(200).json({ cours });
                 } catch (error) {   
@@ -30,9 +30,9 @@ export default async function handler(req, res) {
         if(req.method === 'POST'){
             try {
                 console.log("Requête reçue :", req.body);
-                const { name, description, users } = req.body;
+                const { name, description } = req.body;
 
-                await CoursModel.create({ name, description, users });
+                await CoursModel.create({ name, description });
 
                 return res.json({ message: "Le cours a été créée" }, { status: 201 });
             } catch (error) {

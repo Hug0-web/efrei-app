@@ -28,8 +28,13 @@ export default function Login() {
       if (!response.ok) {
         throw new Error(data.error || 'Erreur de connexion');
       }
-      console.log(data.data.token);
+
+      console.log(data.data);
       localStorage.setItem('token', data.data.token);
+
+      localStorage.setItem('first_name', data.data.user.first_name);
+      localStorage.setItem('last_name', data.data.user.last_name);
+      localStorage.setItem('classe', data.data.user.classe_id);
       
      
       localStorage.setItem('email', data.data.user.email);

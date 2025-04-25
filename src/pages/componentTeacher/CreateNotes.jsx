@@ -10,7 +10,7 @@ export default function CreateNotes() {
 
   const [formData, setFormData] = useState({
     user: '',
-    cour: '',
+    cours: '',
     note: '',
   });
   
@@ -120,7 +120,7 @@ export default function CreateNotes() {
         setMessage("Note créée avec succès");
         setFormData({
           user: '',
-          cour: '',
+          cours: '',
           note: '',
         });
       } else {
@@ -143,7 +143,7 @@ export default function CreateNotes() {
           required
         />
 
-        <select name="cour" value={formData.cour} onChange={handleChange} required>
+        <select name="cours" value={formData.cours} onChange={handleChange} required>
           <option value="">Sélectionnez un cours</option>
           {cours.map((c) => (
             <option key={c._id} value={c._id}>

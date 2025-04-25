@@ -14,6 +14,7 @@
 
   export default function Admin() {
 
+    const router = useRouter();
     const [cours, setCours] = useState([]);
     const [sectors, setSector] = useState([]);
     const [users, setUsers] = useState([]);
@@ -24,6 +25,9 @@
     console.log(users);
     
     useEffect(() => {
+      
+
+      
       fetch('/api/login/admin/users')
         .then((res) => res.json())
         .then((data) => {
@@ -40,6 +44,13 @@
       const token = localStorage.getItem('token');
       const email = localStorage.getItem('email');
       const role = localStorage.getItem('userRole');
+
+     
+      if (role !== "admin") {
+      
+        router.push('/');
+        return;
+      }
 
       console.log({token, email, role});
 

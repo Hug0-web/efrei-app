@@ -16,7 +16,7 @@ export default async function handler(req, res) {
             try {
             
                 const notes = await NoteModel.find().populate("user").populate("cours");
-
+                //console.log(notes);
                 return res.status(200).json({ notes });
             } catch (error) {   
                 console.error(error);

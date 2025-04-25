@@ -12,7 +12,8 @@ export default async function handler(req, res) {
         if(req.method === 'GET'){
                 try {
             
-                const cours = await CoursModel.find()
+                const cours = await CoursModel.find();  
+                console.log(cours);
 
                 return res.status(200).json({ cours });
             } catch (error) {
