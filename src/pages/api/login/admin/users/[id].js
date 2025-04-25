@@ -1,19 +1,40 @@
 import UserModel from "@/app/models/users";
 import database_connection from "@/app/database/mongodb";
 import bcrypt from 'bcrypt';
+import ClassModel from "@/app/models/classes";
+import SectorModel from "@/app/models/sector";
+import CoursModel from "@/app/models/cours";
+
 
 export default async function handler(req, res) {
     await database_connection();
     const url = req.url;
     const urlSplit = url.split("/");
-    const email = req.body.email;
-    const user = await UserModel.findOne({ email });
-    if(urlSplit[3] === user.role) {
-        const { id } = req.query;
-        
+    const { id } = req.query;
+    console.log("ID reçu:", id);
 
     
+    console.log(id);
+    const role = req.headers.role;
+    if(urlSplit[3] === role) {
+        if(req.method === "GET"){
+            try {
+                
+                const classes = await UserModel.findById(id).populate({
+                    path : "classe_id", 
+                    populate : [
+                        { path : "cours" },
+                        { path : "sector" }
+                    ]
+                });
 
+                return res.status(200).json({ classes });
+            } catch (error) {
+                console.error(error);
+                return res.status(500).json({ error: "Impossible de récupérer les classes" });
+            }
+        }     
+  
         if(req.method === 'PUT'){
             try {
             
@@ -67,7 +88,7 @@ export default async function handler(req, res) {
                 }
         }
     }
-    if (urlSplit[3] !== user.role) {
-        return res.status(500).json({ error: "Vous n'êtes pas un professeur, vous ne pouvez pas accedez à ces données" });
+    if (urlSplit[3] !== role) {
+        return res.status(500).json({ error: "Vous n'êtes pas un admin, vous ne pouvez pas accedez à ces données" });
     }
 }

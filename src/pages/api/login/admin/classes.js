@@ -14,9 +14,9 @@ export default async function handler(req, res) {
     const urlSplit = url.split("/");
     const role = req.headers.role;
     
-    const email = req.body.email;
     
-    const user = await UserModel.findOne({ email });
+    
+    
     if(urlSplit[3] === role) {
   
         if(req.method === 'GET'){

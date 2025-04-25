@@ -10,13 +10,12 @@ export default function CreateUserForm() {
     email: '',
     password: '',
     role: '',
-    classe_id: '',
+    classe_id: [],
   });
   
 
   const [classes, setClasses] = useState([]);
 
-  //console.log(classes);
 
   const [message, setMessage] = useState('');
 
@@ -59,10 +58,16 @@ export default function CreateUserForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+            const token = localStorage.getItem('token');
+            const email = localStorage.getItem('email');
+            const role = localStorage.getItem('userRole');
+
             const res = await fetch('/api/login/admin/users', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
+                  'email' : email,
+                  'role' : role,
                 },
                 body: JSON.stringify(formData),
             });
@@ -77,7 +82,7 @@ export default function CreateUserForm() {
             email: '',
             password: '',
             role: '',
-            classe_id: '',
+            classe_id: [],
         });
         } else {
         setMessage(data.error || 'Une erreur est survenue.');
@@ -88,7 +93,6 @@ export default function CreateUserForm() {
     }
   };
 
-  console.log(classes);
     
 
   return (
@@ -104,8 +108,8 @@ export default function CreateUserForm() {
             <option value="teacher">Professeur</option>
             <option value="admin">Administrateur</option>
           </select>
-          <select name="classe_id" value={formData.classe_id} onChange={handleChange} required>
-            <option value={formData.classe_id}>Sélectionnez une classe</option>
+          <select name="classe_id" value={formData.classe_id} onChange={handleChange}>
+            <option value="">Sélectionnez une classe</option>
             {classes.map((c) => (
               <option key={c.name} value={c._id}>
               {c.name}

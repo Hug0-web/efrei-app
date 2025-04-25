@@ -28,7 +28,8 @@ const UserSchema = new Schema({
     classe_id: [{
         type: Schema.Types.ObjectId,
         ref: 'Class',
-        required: true
+        required: false,
+        default: [],
     }],
 });
 
