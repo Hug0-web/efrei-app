@@ -16,8 +16,6 @@ export default function CreateUserForm() {
 
   const [classes, setClasses] = useState([]);
 
-  //console.log(classes);
-
   const [message, setMessage] = useState('');
 
   const [loading, setLoading] = useState(true);

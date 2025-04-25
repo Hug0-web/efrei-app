@@ -6,9 +6,8 @@ export default async function handler(req, res) {
     await database_connection();
     const url = req.url;
     const urlSplit = url.split("/");
-    const email = req.body.email;
-    const user = await UserModel.findOne({ email });
-    if(urlSplit[3] === user.role) {
+    const role = req.headers.role;
+    if(urlSplit[3] === role) {
         
         if(req.method === 'GET'){
                 try {
@@ -22,7 +21,7 @@ export default async function handler(req, res) {
             }
         }
     }
-    if (urlSplit[3] !== user.role) {
+    if (urlSplit[3] !== role) {
         return res.status(500).json({ error: "Vous n'êtes pas un professeur, vous ne pouvez pas accedez à ces données" });
     }
 }
